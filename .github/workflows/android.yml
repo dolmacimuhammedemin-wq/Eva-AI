@@ -1,0 +1,54 @@
+
+name: EVA AI Android Build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Kodlari indir
+        uses: actions/checkout@v4
+
+      - name: Java kur
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Flutter kur
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Android projesini olustur
+        run: flutter create --platforms android --project-name eva_ai app
+
+      - name: EVA AI dosyalarini aktar
+        run: |
+          cp pubspec.yaml app/pubspec.yaml
+          mkdir -p app/lib
+          cp -R lib/. app/lib/
+
+      - name: Paketleri yukle
+        working-directory: app
+        run: flutter pub get
+
+      - name: APK olustur
+        working-directory: app
+        run: flutter build apk --release
+
+      - name: APK dosyasini yukle
+        uses: actions/upload-artifact@v4
+        with:
+          name: EVA-AI-Android
+          path: app/build/app/outputs/flutter-apk/app-release.apk
+          
