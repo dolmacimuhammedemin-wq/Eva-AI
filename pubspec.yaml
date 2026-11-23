@@ -1,2 +1,22 @@
 
-EVA AI BAŞLANGIC DOSYASI 
+name: eva_ai
+description: EVA AI Personal Assistant
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  
